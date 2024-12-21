@@ -31,7 +31,7 @@ protected:
 	UPROPERTY()
 	UEnhancedInputComponent* EnhancedInputComponent;
 
-
+	UFUNCTION(BlueprintCallable)
 	void ChangeInputContext(EBattleInput battleInput);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
