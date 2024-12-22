@@ -35,6 +35,12 @@ void ABattlePlayerController::AddBattleCharacter(ABattleCharacter* battleCharact
 	}
 }
 
+void ABattlePlayerController::ChangePlayerCamera(AActor* actor)
+{
+	SetViewTargetWithBlend(actor, CAMERA_CHANGETIME_NONSELECT, EViewTargetBlendFunction::VTBlend_Cubic);
+
+}
+
 void ABattlePlayerController::ChangeInputContext(EBattleInput battleInput)
 {
 	switch (battleInput)

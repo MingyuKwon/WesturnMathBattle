@@ -2,6 +2,7 @@
 
 
 #include "Pawn/BattleModel.h"
+#include "WesturnMathBattle/WesturnMathBattle.h"
 #include "Character/BattleCharacter.h"
 #include "Controller/BattlePlayerController.h"
 
@@ -19,7 +20,7 @@ void ABattleModel::CharacterSelect()
 	{
 		UE_LOG(LogTemp, Display, TEXT("Model :: CharacterSelect"));
 		battleCharactersArray[0]->SelectedByModel();
-		battleController->SetViewTargetWithBlend(battleCharactersArray[0], 0.3f, EViewTargetBlendFunction::VTBlend_Cubic);
+		battleController->ChangePlayerCamera(battleCharactersArray[0]);
 	}
 	
 }
@@ -39,7 +40,7 @@ void ABattleModel::Back()
 	if (battleCharactersArray.Num() > 1)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Model :: Back"));
-		battleController->SetViewTargetWithBlend(battleCharactersArray[1], 0.3f, EViewTargetBlendFunction::VTBlend_Cubic);
+		battleController->ChangePlayerCamera(battleCharactersArray[1]);
 
 	}
 }

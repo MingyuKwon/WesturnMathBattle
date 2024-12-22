@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#define CAMERA_CHANGETIME_NONSELECT 0.2f
 
 UENUM(BlueprintType) 
 enum class EBattleInput : uint8 

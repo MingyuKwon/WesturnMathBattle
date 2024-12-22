@@ -27,6 +27,8 @@ class WESTURNMATHBATTLE_API ABattlePlayerController : public APlayerController
 public:
 	virtual void AddBattleCharacter(ABattleCharacter* battleCharacter);
 
+	virtual void ChangePlayerCamera(AActor* actor);
+
 protected:
 
 	//////////////////////////////////////////////////////////////////////////////// for input system
