@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Interface/BattleCharacterInterface.h"
-
+#include "WesturnMathBattle/WesturnMathBattle.h"
 #include "BattleModel.generated.h"
 
 class ABattleCharacter;

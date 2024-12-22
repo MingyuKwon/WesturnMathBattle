@@ -48,6 +48,8 @@ void ABattlePlayerController::ChangeInputContext(EBattleInput battleInput)
 	case EBattleInput::EBI_None:
 		break;
 	case EBattleInput::EBI_SelectCharacter:
+		currentBattleInput = EBattleInput::EBI_SelectCharacter;
+
 		if (Subsystem)
 		{
 			Subsystem->RemoveMappingContext(IMC_SelectSkill);
@@ -64,6 +66,7 @@ void ABattlePlayerController::ChangeInputContext(EBattleInput battleInput)
 		}
 		break;
 	case EBattleInput::EBI_SelectSkill:
+		currentBattleInput = EBattleInput::EBI_SelectSkill;
 
 		if (EnhancedInputComponent) {
 			EnhancedInputComponent->ClearActionBindings();
@@ -96,6 +99,7 @@ void ABattlePlayerController::OnCharacterSelectAction()
 {
 	if (currentPossessBattleModel)
 	{
+		ChangeInputContext(EBattleInput::EBI_SelectSkill);
 		currentPossessBattleModel->CharacterSelect();
 	}
 }
@@ -112,6 +116,28 @@ void ABattlePlayerController::OnBackAction()
 {
 	if (currentPossessBattleModel)
 	{
+		switch (currentBattleInput)
+		{
+			case EBattleInput::EBI_None:
+				break;
+			case EBattleInput::EBI_SelectCharacter:
+				break;
+			case EBattleInput::EBI_SelectSkill:
+				currentBattleInput = EBattleInput::EBI_SelectCharacter;
+				break;
+			case EBattleInput::EBI_SelectItem:
+				currentBattleInput = EBattleInput::EBI_SelectSkill;
+				break;
+			case EBattleInput::EBI_SelectTarget:
+				currentBattleInput = EBattleInput::EBI_SelectSkill;
+				break;
+			case EBattleInput::EBI_Max:
+				break;
+			default:
+				break;
+		}
+		ChangeInputContext(currentBattleInput);
+
 		currentPossessBattleModel->Back();
 	}
 }

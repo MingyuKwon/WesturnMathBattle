@@ -32,6 +32,8 @@ public:
 protected:
 
 	//////////////////////////////////////////////////////////////////////////////// for input system
+	EBattleInput currentBattleInput;
+
 	UPROPERTY()
 	UEnhancedInputLocalPlayerSubsystem* Subsystem;
 	UPROPERTY()
