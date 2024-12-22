@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "WesturnMathBattle/WesturnMathBattle.h"
+#include "Character/BattleCharacter.h"
 #include "BattlePlayerController.generated.h"
 
 class UInputMappingContext;
@@ -24,7 +25,7 @@ class WESTURNMATHBATTLE_API ABattlePlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	
+	virtual void AddBattleCharacter(ABattleCharacter* battleCharacter);
 
 protected:
 

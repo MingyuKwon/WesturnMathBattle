@@ -2,6 +2,7 @@
 
 
 #include "Pawn/BattleModel.h"
+#include "Character/BattleCharacter.h"
 
 // Sets default values
 ABattleModel::ABattleModel()
@@ -13,12 +14,22 @@ ABattleModel::ABattleModel()
 
 void ABattleModel::CharacterSelect()
 {
-	UE_LOG(LogTemp, Display, TEXT("Model :: CharacterSelect"));
+	if (battleCharactersArray.Num() > 0)
+	{
+		UE_LOG(LogTemp, Display, TEXT("Model :: CharacterSelect"));
+		battleCharactersArray[0]->SelectedByModel();
+	}
+	
 }
 
 void ABattleModel::SkillSelect()
 {
-	UE_LOG(LogTemp, Display, TEXT("Model :: SkillSelect"));
+	if (battleCharactersArray.Num() > 0)
+	{
+		UE_LOG(LogTemp, Display, TEXT("Model :: SkillSelect"));
+		battleCharactersArray[0]->SelectSkill();
+	}
+	
 }
 
 void ABattleModel::Back()
@@ -26,14 +37,17 @@ void ABattleModel::Back()
 	UE_LOG(LogTemp, Display, TEXT("Model :: Back"));
 }
 
-// Called when the game starts or when spawned
+void ABattleModel::AddBattleCharacter(ABattleCharacter* battleCharacter)
+{
+	battleCharactersArray.Add(battleCharacter);
+}
+
 void ABattleModel::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void ABattleModel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

@@ -27,6 +27,14 @@ void ABattlePlayerController::BeginPlay()
 
 }
 
+void ABattlePlayerController::AddBattleCharacter(ABattleCharacter* battleCharacter)
+{
+	if (currentPossessBattleModel)
+	{
+		currentPossessBattleModel->AddBattleCharacter(battleCharacter);
+	}
+}
+
 void ABattlePlayerController::ChangeInputContext(EBattleInput battleInput)
 {
 	switch (battleInput)
@@ -77,7 +85,6 @@ void ABattlePlayerController::SetupInputComponent()
 
 void ABattlePlayerController::OnCharacterSelectAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Controller :: OnCharacterSelectAction"));
 	if (currentPossessBattleModel)
 	{
 		currentPossessBattleModel->CharacterSelect();
@@ -86,7 +93,6 @@ void ABattlePlayerController::OnCharacterSelectAction()
 
 void ABattlePlayerController::OnSkillSelectAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Controller :: OnSkillSelectAction"));
 	if (currentPossessBattleModel)
 	{
 		currentPossessBattleModel->SkillSelect();
@@ -95,7 +101,6 @@ void ABattlePlayerController::OnSkillSelectAction()
 
 void ABattlePlayerController::OnBackAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Controller :: OnBackAction"));
 	if (currentPossessBattleModel)
 	{
 		currentPossessBattleModel->Back();

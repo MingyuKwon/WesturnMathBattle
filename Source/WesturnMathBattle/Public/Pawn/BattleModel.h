@@ -4,7 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Interface/BattleCharacterInterface.h"
+
 #include "BattleModel.generated.h"
+
+class ABattleCharacter;
 
 UCLASS()
 class WESTURNMATHBATTLE_API ABattleModel : public APawn
@@ -13,6 +17,10 @@ class WESTURNMATHBATTLE_API ABattleModel : public APawn
 
 public:
 	ABattleModel();
+
+	UFUNCTION()
+	virtual void AddBattleCharacter(ABattleCharacter* battleCharacter);
+
 
 	UFUNCTION()
 	virtual void CharacterSelect();
@@ -26,6 +34,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+	TArray<ABattleCharacter*> battleCharactersArray;
 
 public:	
 	virtual void Tick(float DeltaTime) override;
