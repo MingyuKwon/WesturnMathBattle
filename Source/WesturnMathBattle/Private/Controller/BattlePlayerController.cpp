@@ -27,6 +27,14 @@ void ABattlePlayerController::BeginPlay()
 
 }
 
+void ABattlePlayerController::Tick(float deltaTime)
+{
+	Super::Tick(deltaTime);
+
+	inputBlockTimer -= GetWorld()->DeltaTimeSeconds;
+	inputBlockTimer = FMath::Max(inputBlockTimer, 0);
+}
+
 void ABattlePlayerController::AddBattleCharacter(ABattleCharacter* battleCharacter)
 {
 	if (currentPossessBattleModel)
@@ -38,7 +46,12 @@ void ABattlePlayerController::AddBattleCharacter(ABattleCharacter* battleCharact
 void ABattlePlayerController::ChangePlayerCamera(AActor* actor)
 {
 	SetViewTargetWithBlend(actor, CAMERA_CHANGETIME_NONSELECT, EViewTargetBlendFunction::VTBlend_Cubic);
+	SetInputBlockTimer(CAMERA_CHANGETIME_NONSELECT);
+}
 
+void ABattlePlayerController::SetInputBlockTimer(float time)
+{
+	inputBlockTimer = time;
 }
 
 void ABattlePlayerController::ChangeInputContext(EBattleInput battleInput)
@@ -97,6 +110,8 @@ void ABattlePlayerController::SetupInputComponent()
 
 void ABattlePlayerController::OnCharacterSelectAction()
 {
+	if (!CanGetInput()) return;
+
 	if (currentPossessBattleModel)
 	{
 		ChangeInputContext(EBattleInput::EBI_SelectSkill);
@@ -106,6 +121,8 @@ void ABattlePlayerController::OnCharacterSelectAction()
 
 void ABattlePlayerController::OnSkillSelectAction()
 {
+	if (!CanGetInput()) return;
+
 	if (currentPossessBattleModel)
 	{
 		currentPossessBattleModel->SkillSelect();
@@ -114,6 +131,8 @@ void ABattlePlayerController::OnSkillSelectAction()
 
 void ABattlePlayerController::OnBackAction()
 {
+	if (!CanGetInput()) return;
+
 	if (currentPossessBattleModel)
 	{
 		switch (currentBattleInput)
@@ -144,6 +163,8 @@ void ABattlePlayerController::OnBackAction()
 
 void ABattlePlayerController::OnLBAction()
 {
+	if (!CanGetInput()) return;
+
 	if (currentPossessBattleModel)
 	{
 		currentPossessBattleModel->ChangeFocusCharacterBefore();
@@ -153,6 +174,8 @@ void ABattlePlayerController::OnLBAction()
 
 void ABattlePlayerController::OnRBAction()
 {
+	if (!CanGetInput()) return;
+
 	if (currentPossessBattleModel)
 	{
 		currentPossessBattleModel->ChangeFocusCharacterAfter();

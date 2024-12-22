@@ -25,14 +25,22 @@ class WESTURNMATHBATTLE_API ABattlePlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
+	virtual void Tick(float deltaTime) override;
+
 	virtual void AddBattleCharacter(ABattleCharacter* battleCharacter);
 
 	virtual void ChangePlayerCamera(AActor* actor);
+
+	virtual void SetInputBlockTimer(float time);
 
 protected:
 
 	//////////////////////////////////////////////////////////////////////////////// for input system
 	EBattleInput currentBattleInput;
+
+	float inputBlockTimer = 0.f;
+
+	FORCEINLINE bool CanGetInput() { return inputBlockTimer <= 0; }
 
 	UPROPERTY()
 	UEnhancedInputLocalPlayerSubsystem* Subsystem;

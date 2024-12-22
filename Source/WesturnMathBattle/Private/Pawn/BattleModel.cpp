@@ -30,9 +30,10 @@ void ABattleModel::ChangeFocusCharacterAfter()
 
 void ABattleModel::CharacterSelect()
 {
-	if (battleCharactersArray.Num() > 0)
+	if (battleCharactersArray.Num() > currentFocusIndex && battleController)
 	{
 		battleCharactersArray[currentFocusIndex]->SelectedByModel();
+		battleController->SetInputBlockTimer(CAMERA_CHANGETIME_SELECT);
 	}
 	
 }
@@ -48,9 +49,10 @@ void ABattleModel::SkillSelect()
 
 void ABattleModel::Back()
 {
-	if (battleCharactersArray.Num() > 1)
+	if (battleCharactersArray.Num() > currentFocusIndex && battleController)
 	{
 		battleCharactersArray[currentFocusIndex]->Back();
+		battleController->SetInputBlockTimer(CAMERA_CHANGETIME_SELECT);
 
 	}
 }

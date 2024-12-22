@@ -36,6 +36,13 @@ void ABattleCharacter::BeginPlay()
 
 	ABattlePlayerController* battlePlayerController = Cast<ABattlePlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 	battlePlayerController->AddBattleCharacter(this);
+
+    if (LookCamera)
+    {
+        LookCamera->SetRelativeLocation(NonSelectCamera->GetRelativeLocation());
+        LookCamera->SetRelativeRotation(NonSelectCamera->GetRelativeRotation());
+
+    }
 }
 
 // Called every frame
