@@ -12,13 +12,6 @@ ABattleCharacter::ABattleCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	NonSelectCameraSpring = CreateDefaultSubobject<USpringArmComponent>(TEXT("NonSelectCameraSpring"));
-	NonSelectCameraSpring->SetupAttachment(GetMesh());
-	NonSelectCameraSpring->TargetArmLength = 250.0f; 
-
-	NonSelectCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("NonSelectCamera"));
-	NonSelectCamera->SetupAttachment(NonSelectCameraSpring, USpringArmComponent::SocketName); 
-
 	SelectCameraSpring = CreateDefaultSubobject<USpringArmComponent>(TEXT("SelectCameraSpring"));
 	SelectCameraSpring->SetupAttachment(GetMesh());
 	SelectCameraSpring->TargetArmLength = 200.0f;
@@ -56,15 +49,4 @@ void ABattleCharacter::SelectSkill()
 	UE_LOG(LogTemp, Warning, TEXT("%s :: SelectSkill"), *GetName());
 
 }
-
-UCameraComponent* ABattleCharacter::GetNonSelectCamera()
-{
-	return NonSelectCamera;
-}
-
-UCameraComponent* ABattleCharacter::GetSelectCamera()
-{
-	return SelectCamera;
-}
-
 

@@ -3,6 +3,7 @@
 
 #include "Pawn/BattleModel.h"
 #include "Character/BattleCharacter.h"
+#include "Controller/BattlePlayerController.h"
 
 // Sets default values
 ABattleModel::ABattleModel()
@@ -18,6 +19,7 @@ void ABattleModel::CharacterSelect()
 	{
 		UE_LOG(LogTemp, Display, TEXT("Model :: CharacterSelect"));
 		battleCharactersArray[0]->SelectedByModel();
+		battleController->SetViewTargetWithBlend(battleCharactersArray[0], 0.3f, EViewTargetBlendFunction::VTBlend_Cubic);
 	}
 	
 }
@@ -34,7 +36,12 @@ void ABattleModel::SkillSelect()
 
 void ABattleModel::Back()
 {
-	UE_LOG(LogTemp, Display, TEXT("Model :: Back"));
+	if (battleCharactersArray.Num() > 1)
+	{
+		UE_LOG(LogTemp, Display, TEXT("Model :: Back"));
+		battleController->SetViewTargetWithBlend(battleCharactersArray[1], 0.3f, EViewTargetBlendFunction::VTBlend_Cubic);
+
+	}
 }
 
 void ABattleModel::AddBattleCharacter(ABattleCharacter* battleCharacter)
@@ -46,6 +53,12 @@ void ABattleModel::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ABattleModel::PossessedBy(AController* NewController)
+{
+	APawn::PossessedBy(NewController);
+	battleController = Cast<ABattlePlayerController>(NewController);
 }
 
 void ABattleModel::Tick(float DeltaTime)

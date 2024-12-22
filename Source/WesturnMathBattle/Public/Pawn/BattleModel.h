@@ -9,6 +9,8 @@
 #include "BattleModel.generated.h"
 
 class ABattleCharacter;
+class AController;
+class ABattlePlayerController;
 
 UCLASS()
 class WESTURNMATHBATTLE_API ABattleModel : public APawn
@@ -34,8 +36,13 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void PossessedBy(AController* NewController) override;
+
 
 	TArray<ABattleCharacter*> battleCharactersArray;
+
+	UPROPERTY()
+	ABattlePlayerController* battleController;
 
 public:	
 	virtual void Tick(float DeltaTime) override;

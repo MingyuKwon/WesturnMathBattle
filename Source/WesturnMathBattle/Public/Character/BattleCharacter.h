@@ -24,12 +24,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* NonSelectCameraSpring;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* NonSelectCamera;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USpringArmComponent* SelectCameraSpring;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -43,10 +37,6 @@ public:
 	virtual void SelectedByModel();
 
 	virtual void SelectSkill();
-
-	virtual UCameraComponent* GetNonSelectCamera();
-
-	virtual UCameraComponent* GetSelectCamera();
 
 
 };
