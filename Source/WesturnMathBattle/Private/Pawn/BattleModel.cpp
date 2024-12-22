@@ -40,7 +40,7 @@ void ABattleModel::Back()
 	if (battleCharactersArray.Num() > 1)
 	{
 		UE_LOG(LogTemp, Display, TEXT("Model :: Back"));
-		battleController->ChangePlayerCamera(battleCharactersArray[1]);
+		battleCharactersArray[0]->Back();
 
 	}
 }
