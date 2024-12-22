@@ -7,6 +7,10 @@
 #include "Interface/BattleCharacterInterface.h"
 #include "BattleCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+
+
 UCLASS()
 class WESTURNMATHBATTLE_API ABattleCharacter : public ACharacter
 {
@@ -17,8 +21,20 @@ public:
 	ABattleCharacter();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* NonSelectCameraSpring;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* NonSelectCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* SelectCameraSpring;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* SelectCamera;
+
 
 public:	
 	// Called every frame
@@ -28,6 +44,9 @@ public:
 
 	virtual void SelectSkill();
 
+	virtual UCameraComponent* GetNonSelectCamera();
+
+	virtual UCameraComponent* GetSelectCamera();
 
 
 };
