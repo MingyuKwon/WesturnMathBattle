@@ -40,10 +40,12 @@ protected:
 
 
 	UFUNCTION()
-	void BlendCamera(UCameraComponent* ToCamera, float Duration);
+	void BlendCamera(UCameraComponent* ToCamera);
 
 private:
-	FTimerHandle BlendTimerHandle;
+	bool bCameraBlending = false;
+	float CameraBlendingElapsedTime = 0.0f;
+	UCameraComponent* LerpFocusCamera = nullptr;
 
 public:	
 	// Called every frame

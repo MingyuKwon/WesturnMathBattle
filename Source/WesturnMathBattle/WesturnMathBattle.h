@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #define CAMERA_CHANGETIME_NONSELECT 0.2f
-#define CAMERA_CHANGETIME_SELECT 0.2f
+#define CAMERA_CHANGETIME_SELECT 0.3f
 
 
 UENUM(BlueprintType) 

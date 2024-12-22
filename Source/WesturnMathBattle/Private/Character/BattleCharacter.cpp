@@ -50,12 +50,36 @@ void ABattleCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+    if (bCameraBlending)
+    {
+        CameraBlendingElapsedTime += DeltaTime;
+        float Alpha = FMath::Clamp(CameraBlendingElapsedTime / CAMERA_CHANGETIME_SELECT, 0.0f, 1.0f);
+        float SmoothAlpha = FMath::InterpEaseInOut(0.0f, 1.0f, Alpha, 2.0f);
+
+        FVector BlendedLocation = FMath::Lerp(LookCamera->GetRelativeLocation(), LerpFocusCamera->GetRelativeLocation(), SmoothAlpha);
+        FRotator BlendedRotation = FMath::Lerp(LookCamera->GetRelativeRotation(), LerpFocusCamera->GetRelativeRotation(), SmoothAlpha);
+
+        if (LookCamera)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("%s :: Alpha : %f"), *GetName(), Alpha);
+
+            LookCamera->SetRelativeLocation(BlendedLocation);
+            LookCamera->SetRelativeRotation(BlendedRotation);
+        }
+
+        if (Alpha >= 1.0f)
+        {
+            CameraBlendingElapsedTime = 0.f;
+            bCameraBlending = false;
+        }
+    }
+
 }
 
 void ABattleCharacter::SelectedByModel()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s :: SelectedByModel"), *GetName());
-    BlendCamera(SelectCamera, CAMERA_CHANGETIME_SELECT);
+    BlendCamera(SelectCamera);
 
 }
 
@@ -68,43 +92,17 @@ void ABattleCharacter::SelectSkill()
 void ABattleCharacter::Back()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s :: Back"), *GetName());
-    BlendCamera(NonSelectCamera, CAMERA_CHANGETIME_SELECT);
+    BlendCamera(NonSelectCamera);
 
 }
 
-void ABattleCharacter::BlendCamera(UCameraComponent* ToCamera, float Duration)
+void ABattleCharacter::BlendCamera(UCameraComponent* ToCamera)
 {
     if (!LookCamera || !ToCamera) return;
 
-    FVector StartLocation = LookCamera->GetRelativeLocation();
-    FRotator StartRotation = LookCamera->GetRelativeRotation();
-    
-    FVector TargetLocation = ToCamera->GetRelativeLocation();
-    FRotator TargetRotation = ToCamera->GetRelativeRotation();
-
-    float ElapsedTime = 0.0f;
-
-    
-    GetWorld()->GetTimerManager().SetTimer(BlendTimerHandle, FTimerDelegate::CreateLambda([this, ElapsedTime, Duration, StartLocation, StartRotation, TargetLocation, TargetRotation]() mutable {
-        ElapsedTime += GetWorld()->DeltaTimeSeconds;
-        float Alpha = FMath::Clamp(ElapsedTime / Duration, 0.0f, 1.0f);
-
-        FVector BlendedLocation = FMath::Lerp(LookCamera->GetRelativeLocation(), TargetLocation, Alpha);
-        FRotator BlendedRotation = FMath::Lerp(LookCamera->GetRelativeRotation(), TargetRotation, Alpha);
-
-        if (LookCamera)
-        {
-            UE_LOG(LogTemp, Warning, TEXT("%s :: Alpha : %f"), *GetName(), Alpha);
-
-            LookCamera->SetRelativeLocation(BlendedLocation);
-            LookCamera->SetRelativeRotation(BlendedRotation);
-        }
-
-        if (Alpha >= 1.0f)
-        {
-            GetWorld()->GetTimerManager().ClearTimer(BlendTimerHandle);
-        }
-        }), GetWorld()->DeltaTimeSeconds, true);
+    CameraBlendingElapsedTime = 0.f;
+    bCameraBlending = true;
+    LerpFocusCamera = ToCamera;
 }
 
 
