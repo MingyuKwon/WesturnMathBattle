@@ -4,8 +4,15 @@
 #include "Controller/BattlePlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Pawn/BattleModel.h"
 #include "InputActionValue.h"
 
+
+void ABattlePlayerController::OnPossess(APawn* pawn)
+{
+	Super::OnPossess(pawn);
+	currentPossessBattleModel = Cast<ABattleModel>(pawn);
+}
 
 void ABattlePlayerController::BeginPlay()
 {
@@ -16,7 +23,8 @@ void ABattlePlayerController::BeginPlay()
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Battle Start"));
 			ChangeInputContext(EBattleInput::EBI_SelectCharacter);
-		}, 3.f, false);
+		}, 2.f, false);
+
 }
 
 void ABattlePlayerController::ChangeInputContext(EBattleInput battleInput)
@@ -69,17 +77,29 @@ void ABattlePlayerController::SetupInputComponent()
 
 void ABattlePlayerController::OnCharacterSelectAction()
 {
-	UE_LOG(LogTemp, Display, TEXT("OnCharacterSelectAction"));
+	UE_LOG(LogTemp, Warning, TEXT("Controller :: OnCharacterSelectAction"));
+	if (currentPossessBattleModel)
+	{
+		currentPossessBattleModel->CharacterSelect();
+	}
 }
 
 void ABattlePlayerController::OnSkillSelectAction()
 {
-	UE_LOG(LogTemp, Display, TEXT("OnSkillSelectAction"));
+	UE_LOG(LogTemp, Warning, TEXT("Controller :: OnSkillSelectAction"));
+	if (currentPossessBattleModel)
+	{
+		currentPossessBattleModel->SkillSelect();
+	}
 }
 
 void ABattlePlayerController::OnBackAction()
 {
-	UE_LOG(LogTemp, Display, TEXT("OnBackAction"));
+	UE_LOG(LogTemp, Warning, TEXT("Controller :: OnBackAction"));
+	if (currentPossessBattleModel)
+	{
+		currentPossessBattleModel->Back();
+	}
 }
 
 

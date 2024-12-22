@@ -11,6 +11,8 @@ class UInputMappingContext;
 class UInputAction;
 class UEnhancedInputLocalPlayerSubsystem;
 class UEnhancedInputComponent;
+class APawn;
+class ABattleModel;
 struct FInputActionValue;
 
 /**
@@ -25,7 +27,8 @@ public:
 	
 
 protected:
-	// for input system
+
+	//////////////////////////////////////////////////////////////////////////////// for input system
 	UPROPERTY()
 	UEnhancedInputLocalPlayerSubsystem* Subsystem;
 	UPROPERTY()
@@ -50,8 +53,12 @@ protected:
 	void OnCharacterSelectAction(); 
 	void OnSkillSelectAction();
 	void OnBackAction(); 
+	//////////////////////////////////////////////////////////////////////////////// for input system
 
-	// for input system
+	UPROPERTY()
+	ABattleModel* currentPossessBattleModel = nullptr;
+
+	virtual void OnPossess(APawn* pawn) override;
 
 	virtual void BeginPlay() override; 
 
