@@ -89,8 +89,8 @@ void ABattleCharacter::BlendCamera(UCameraComponent* ToCamera, float Duration)
         ElapsedTime += GetWorld()->DeltaTimeSeconds;
         float Alpha = FMath::Clamp(ElapsedTime / Duration, 0.0f, 1.0f);
 
-        FVector BlendedLocation = FMath::Lerp(StartLocation, TargetLocation, Alpha);
-        FRotator BlendedRotation = FMath::Lerp(StartRotation, TargetRotation, Alpha);
+        FVector BlendedLocation = FMath::Lerp(LookCamera->GetRelativeLocation(), TargetLocation, Alpha);
+        FRotator BlendedRotation = FMath::Lerp(LookCamera->GetRelativeRotation(), TargetRotation, Alpha);
 
         if (LookCamera)
         {
