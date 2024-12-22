@@ -16,19 +16,23 @@ ABattleModel::ABattleModel()
 
 void ABattleModel::ChangeFocusCharacterBefore()
 {
-	battleController->ChangePlayerCamera(battleCharactersArray[0]);
+	currentFocusIndex--;
+	currentFocusIndex = FMath::Clamp(currentFocusIndex, 0, battleCharactersArray.Num()-1);
+	battleController->ChangePlayerCamera(battleCharactersArray[currentFocusIndex]);
 }
 
 void ABattleModel::ChangeFocusCharacterAfter()
 {
-	battleController->ChangePlayerCamera(battleCharactersArray[1]);
+	currentFocusIndex++;
+	currentFocusIndex = FMath::Clamp(currentFocusIndex, 0, battleCharactersArray.Num() - 1);
+	battleController->ChangePlayerCamera(battleCharactersArray[currentFocusIndex]);
 }
 
 void ABattleModel::CharacterSelect()
 {
 	if (battleCharactersArray.Num() > 0)
 	{
-		battleCharactersArray[0]->SelectedByModel();
+		battleCharactersArray[currentFocusIndex]->SelectedByModel();
 	}
 	
 }
@@ -37,7 +41,7 @@ void ABattleModel::SkillSelect()
 {
 	if (battleCharactersArray.Num() > 0)
 	{
-		battleCharactersArray[0]->SelectSkill();
+		battleCharactersArray[currentFocusIndex]->SelectSkill();
 	}
 	
 }
@@ -46,7 +50,7 @@ void ABattleModel::Back()
 {
 	if (battleCharactersArray.Num() > 1)
 	{
-		battleCharactersArray[0]->Back();
+		battleCharactersArray[currentFocusIndex]->Back();
 
 	}
 }

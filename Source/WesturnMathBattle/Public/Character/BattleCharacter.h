@@ -35,6 +35,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* SelectCamera;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* LookCamera;
+
+
+	UFUNCTION()
+	void BlendCamera(UCameraComponent* ToCamera, float Duration);
+
+private:
+	FTimerHandle BlendTimerHandle;
 
 public:	
 	// Called every frame

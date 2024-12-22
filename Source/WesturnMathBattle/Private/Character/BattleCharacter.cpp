@@ -6,27 +6,24 @@
 #include "Controller/BattlePlayerController.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Camera/PlayerCameraManager.h"
 
 // Sets default values
 ABattleCharacter::ABattleCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	NonSelectCameraSpring = CreateDefaultSubobject<USpringArmComponent>(TEXT("NonSelectCameraSpring"));
-	NonSelectCameraSpring->SetupAttachment(GetMesh());
-	NonSelectCameraSpring->TargetArmLength = 250.0f; 
-
 	NonSelectCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("NonSelectCamera"));
-	NonSelectCamera->SetupAttachment(NonSelectCameraSpring, USpringArmComponent::SocketName); 
-
-	SelectCameraSpring = CreateDefaultSubobject<USpringArmComponent>(TEXT("SelectCameraSpring"));
-	SelectCameraSpring->SetupAttachment(GetMesh());
-	SelectCameraSpring->TargetArmLength = 200.0f;
+	NonSelectCamera->SetupAttachment(GetMesh(), USpringArmComponent::SocketName);
 
 	SelectCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("SelectCamera"));
-	SelectCamera->SetupAttachment(SelectCameraSpring, USpringArmComponent::SocketName);
+	SelectCamera->SetupAttachment(GetMesh(), USpringArmComponent::SocketName);
 
-	NonSelectCamera->bAutoActivate = true;
+    LookCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("LookCamera"));
+    LookCamera->SetupAttachment(GetMesh(), USpringArmComponent::SocketName);
+
+    LookCamera-> bAutoActivate = true;
+	NonSelectCamera->bAutoActivate = false;
 	SelectCamera->bAutoActivate = false;
 
 
@@ -51,6 +48,7 @@ void ABattleCharacter::Tick(float DeltaTime)
 void ABattleCharacter::SelectedByModel()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s :: SelectedByModel"), *GetName());
+    BlendCamera(SelectCamera, CAMERA_CHANGETIME_SELECT);
 
 }
 
@@ -63,6 +61,43 @@ void ABattleCharacter::SelectSkill()
 void ABattleCharacter::Back()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s :: Back"), *GetName());
+    BlendCamera(NonSelectCamera, CAMERA_CHANGETIME_SELECT);
 
 }
+
+void ABattleCharacter::BlendCamera(UCameraComponent* ToCamera, float Duration)
+{
+    if (!LookCamera || !ToCamera) return;
+
+    FVector StartLocation = LookCamera->GetRelativeLocation();
+    FRotator StartRotation = LookCamera->GetRelativeRotation();
+    
+    FVector TargetLocation = ToCamera->GetRelativeLocation();
+    FRotator TargetRotation = ToCamera->GetRelativeRotation();
+
+    float ElapsedTime = 0.0f;
+
+    
+    GetWorld()->GetTimerManager().SetTimer(BlendTimerHandle, FTimerDelegate::CreateLambda([this, ElapsedTime, Duration, StartLocation, StartRotation, TargetLocation, TargetRotation]() mutable {
+        ElapsedTime += GetWorld()->DeltaTimeSeconds;
+        float Alpha = FMath::Clamp(ElapsedTime / Duration, 0.0f, 1.0f);
+
+        FVector BlendedLocation = FMath::Lerp(StartLocation, TargetLocation, Alpha);
+        FRotator BlendedRotation = FMath::Lerp(StartRotation, TargetRotation, Alpha);
+
+        if (LookCamera)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("%s :: Alpha : %f"), *GetName(), Alpha);
+
+            LookCamera->SetRelativeLocation(BlendedLocation);
+            LookCamera->SetRelativeRotation(BlendedRotation);
+        }
+
+        if (Alpha >= 1.0f)
+        {
+            GetWorld()->GetTimerManager().ClearTimer(BlendTimerHandle);
+        }
+        }), GetWorld()->DeltaTimeSeconds, true);
+}
+
 
