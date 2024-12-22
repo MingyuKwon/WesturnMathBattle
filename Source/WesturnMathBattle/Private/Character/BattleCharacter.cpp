@@ -52,10 +52,6 @@ void ABattleCharacter::SelectedByModel()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s :: SelectedByModel"), *GetName());
 
-	NonSelectCamera->SetActive(false);
-	SelectCamera->SetActive(true);
-
-
 }
 
 void ABattleCharacter::SelectSkill()
@@ -67,8 +63,6 @@ void ABattleCharacter::SelectSkill()
 void ABattleCharacter::Back()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s :: Back"), *GetName());
-	NonSelectCamera->SetActive(true);
-	SelectCamera->SetActive(false);
 
 }
 

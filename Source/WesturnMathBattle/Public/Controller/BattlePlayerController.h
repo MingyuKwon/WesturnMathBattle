@@ -51,11 +51,20 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* BackAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LBAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* RBAction;
+
 
 	virtual void SetupInputComponent() override;
 	void OnCharacterSelectAction(); 
 	void OnSkillSelectAction();
 	void OnBackAction(); 
+	void OnLBAction();
+	void OnRBAction();
 	//////////////////////////////////////////////////////////////////////////////// for input system
 
 	UPROPERTY()

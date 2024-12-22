@@ -26,6 +26,10 @@ public:
 
 	UFUNCTION()
 	virtual void CharacterSelect();
+	UFUNCTION()
+	virtual void ChangeFocusCharacterBefore();
+	UFUNCTION()
+	virtual void ChangeFocusCharacterAfter();
 
 	UFUNCTION()
 	virtual void SkillSelect();

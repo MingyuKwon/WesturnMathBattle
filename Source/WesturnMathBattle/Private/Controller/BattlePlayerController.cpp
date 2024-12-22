@@ -58,6 +58,9 @@ void ABattlePlayerController::ChangeInputContext(EBattleInput battleInput)
 			EnhancedInputComponent->ClearActionBindings();
 			EnhancedInputComponent->BindAction(OkAction, ETriggerEvent::Started, this, &ThisClass::OnCharacterSelectAction);
 			EnhancedInputComponent->BindAction(BackAction, ETriggerEvent::Started, this, &ThisClass::OnBackAction);
+			EnhancedInputComponent->BindAction(LBAction, ETriggerEvent::Started, this, &ThisClass::OnLBAction);
+			EnhancedInputComponent->BindAction(RBAction, ETriggerEvent::Started, this, &ThisClass::OnRBAction);
+
 		}
 		break;
 	case EBattleInput::EBI_SelectSkill:
@@ -110,6 +113,23 @@ void ABattlePlayerController::OnBackAction()
 	if (currentPossessBattleModel)
 	{
 		currentPossessBattleModel->Back();
+	}
+}
+
+void ABattlePlayerController::OnLBAction()
+{
+	if (currentPossessBattleModel)
+	{
+		currentPossessBattleModel->ChangeFocusCharacterBefore();
+	}
+	
+}
+
+void ABattlePlayerController::OnRBAction()
+{
+	if (currentPossessBattleModel)
+	{
+		currentPossessBattleModel->ChangeFocusCharacterAfter();
 	}
 }
 
